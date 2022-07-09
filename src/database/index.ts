@@ -1,5 +1,10 @@
-import { Product } from 'app/models';
+import sequelize from 'database/config';
+import * as config from 'config/app';
 
-export const sync = async () => Promise.all([
-  await Product.sync({ force: true }),
-]).catch((e) => console.log(e));
+export const sync = async () => {
+  if(config.isDev) {
+    Promise.all([
+      await sequelize.sync({ force: true })
+    ]);
+  }
+};

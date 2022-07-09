@@ -2,7 +2,7 @@ import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from 'database/config';
 
 export type ProductAttributes = {
-  id: number;
+  id: string;
   name: string;
   stock: number;
   price: number;
@@ -10,7 +10,7 @@ export type ProductAttributes = {
 
 type ProductCreationAttributes = Optional<ProductAttributes, 'id'>;
 
-class Product extends Model<ProductAttributes, ProductCreationAttributes> {
+class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
   declare id: string;
   declare name: string;
   declare stock: number;

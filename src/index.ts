@@ -1,18 +1,22 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import { sync } from 'database';
 
 import express from 'express';
 
-const PORT = process.env.PORT;
-const isDev = process.env.NODE_ENV === 'development';
+import * as config from 'config/app';
+import { registerModels } from 'app/models';
+import { sync } from 'database';
+import { create } from 'app/controllers/ProductController';
 
-if(isDev) {
-  sync();
-}
+registerModels();
+sync();
 
 const application: express.Application = express();
 
-application.listen(PORT, () => {
-  console.log(`Application listening on port ${PORT}`);
+application.use(express.json());
+
+application.post('/', create);
+
+application.listen(config.port, () => {
+  console.log(`Application listening on port ${config.port}`);
 });

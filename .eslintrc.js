@@ -12,6 +12,7 @@ module.exports = {
     'indent': ['warn', 2],
     'quotes': [2, 'single', { 'avoidEscape': true }],
     'object-curly-spacing': ['error', 'always'],
-    'semi': ['error', 'always']
+    'semi': ['error', 'always'],
+    '@typescript-eslint/no-empty-interface': 'off',
   }
 };

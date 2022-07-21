@@ -1,67 +1,47 @@
-import { DataTypes, Model, Optional, ForeignKey } from 'sequelize';
-import sequelize from 'database/config';
-import { Cart, Product } from 'app/models';
+import { Table, Model, Column, DataType, PrimaryKey, AllowNull, Default } from 'sequelize-typescript';
 
-export type CartItemAttributes = {
-  id: string;
-  cartId: string;
-  productId: string;
-  quantity: number;
-  price: number;
-  total: number;
-}
-
-type CartItemCreationAttributes = Optional<CartItemAttributes, 'id'>;
-
-class CartItem extends Model<CartItemAttributes, CartItemCreationAttributes> implements CartItemAttributes {
-  declare id: string;
-  declare cartId: ForeignKey<Cart['id']>;
-  declare productId: ForeignKey<Product['id']>;
-  declare quantity: number;
-  declare price: number;
-  declare total: number;
-
-  static associate({ Product }) {
-    CartItem.hasOne(Product, {
-      sourceKey: 'id',
-      foreignKey: 'productId',
-      as: 'product'
-    });
-  }
-} 
-
-CartItem.init({
-  id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    defaultValue: DataTypes.UUIDV4
-  },
-  cartId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-  },
-  productId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-  },
-  quantity: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  price: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-  total: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-}, 
-{ 
-  sequelize,
+@Table({
   tableName: 'cart_items',
   underscored: true,
   timestamps: true,
-});
+})
+class CartItem extends Model {
+  @PrimaryKey
+  @Default(DataType.UUIDV4)
+  @Column({
+    type: DataType.UUID,
+  })
+    id: number;
+
+  @AllowNull(false)
+  @Column({
+    type: DataType.UUID,
+  })
+    cartId: string;
+
+  @AllowNull(false)
+  @Column({
+    type: DataType.UUID,
+  })
+    productId: string;
+
+  @AllowNull(false)
+  @Column({
+    type: DataType.INTEGER,
+  })
+    quantity: number;
+
+  @AllowNull(false)
+  @Column({
+    type: DataType.FLOAT,
+  })
+    price: number;
+  
+  @AllowNull(false)
+  @Column({
+    type: DataType.FLOAT,
+  })
+    total: number;
+}
 
 export default CartItem;

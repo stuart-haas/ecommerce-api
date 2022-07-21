@@ -1,46 +1,34 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from 'database/config';
-
-export type ProductAttributes = {
-  id: string;
-  name: string;
-  stock: number;
-  price: number;
-}
-
-type ProductCreationAttributes = Optional<ProductAttributes, 'id'>;
-
-class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
-  declare id: string;
-  declare name: string;
-  declare stock: number;
-  declare price: number;
-} 
-
-Product.init({
-  id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    defaultValue: DataTypes.UUIDV4
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  stock: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  price: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-}, 
-{ 
-  sequelize,
+import { Table, Model, Column, DataType, PrimaryKey, AllowNull, Default } from 'sequelize-typescript';
+@Table({
   tableName: 'products',
   underscored: true,
   timestamps: true,
-});
+})
+class Product extends Model {
+  @PrimaryKey
+  @Default(DataType.UUIDV4)
+  @Column({
+    type: DataType.UUID,
+  })
+    id: number;
+
+  @AllowNull(false)
+  @Column({
+    type: DataType.STRING,
+  })
+    name: string;
+
+  @AllowNull(false)
+  @Column({
+    type: DataType.INTEGER,
+  })
+    stock: number;
+
+  @AllowNull(false)
+  @Column({
+    type: DataType.FLOAT,
+  })
+    price: number;
+}
 
 export default Product;

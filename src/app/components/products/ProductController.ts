@@ -20,7 +20,7 @@ class ProductController {
     res.json(data);
   }
 
-  @Delete('/:id')
+  @Delete(':id')
   async deleteById(req: Request, res: Response) {
     const data = await Product.findByPk(req.params.id);
     await data.destroy();
